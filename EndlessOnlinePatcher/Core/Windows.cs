@@ -4,7 +4,6 @@ namespace EndlessOnlinePatcher.Core;
 
 public static class Windows
 {
-
     public static async Task StartEO(string path)
     {
         await Task.Run(() =>

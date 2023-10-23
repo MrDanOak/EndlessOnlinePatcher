@@ -14,17 +14,19 @@ public partial class Main : Form
     private bool _patched = false;
     private bool _dragging;
     private Point _mouseDownLocation;
+    private IClientVersionFetcher _clientVersionFetcher;
 
     private bool ShowPatch() => _localVersion! < _remoteVersion! && !_patched;
 
     public Main()
     {
         InitializeComponent();
+        _clientVersionFetcher = new ClientVersionFetcher();
     }
 
     private async void Main_Shown(object sender, EventArgs e)
     {
-        var localVersion = FileVersion.GetLocal($"{_path}Endless.exe");
+        var localVersion = _clientVersionFetcher.GetLocal($"{_path}Endless.exe");
         _localVersion = localVersion;
         await UpdateVersionLabels();
         pnlPatch.Visible = ShowPatch();
@@ -36,7 +38,7 @@ public partial class Main : Form
     {
         lblLocal.Text = $"Local: v{_localVersion}";
         lblRemote.Text = "Remote: fetching...";
-        (var downloadLink, var remoteVersion) = await FileVersion.GetRemoteAsync("https://www.endless-online.com/client/download.html");
+        (var downloadLink, var remoteVersion) = await _clientVersionFetcher.GetRemoteAsync("https://www.endless-online.com/client/download.html");
         lblRemote.Text = $"Remote: v{remoteVersion}";
         _downloadLink = downloadLink;
         _remoteVersion = remoteVersion;

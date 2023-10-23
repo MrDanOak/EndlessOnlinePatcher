@@ -2,9 +2,10 @@
 using System.IO.Compression;
 
 var path = "C:/Program Files (x86)/Endless Online/";
-var localVersion = FileVersion.GetLocal($"{path}Endless.exe");
+var clientVersionFetcher = new ClientVersionFetcher();
+var localVersion = clientVersionFetcher.GetLocal($"{path}Endless.exe");
 Console.WriteLine($"Local Version {localVersion}");
-(var downloadLink, var remoteVersion) = await FileVersion.GetRemoteAsync("https://www.endless-online.com/client/download.html");
+(var downloadLink, var remoteVersion) = await clientVersionFetcher.GetRemoteAsync("https://www.endless-online.com/client/download.html");
 Console.WriteLine($"Remote Version {remoteVersion}");
 
 if (remoteVersion > localVersion)
