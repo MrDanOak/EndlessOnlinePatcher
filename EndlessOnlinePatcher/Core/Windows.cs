@@ -8,7 +8,7 @@ public static class Windows
     {
         await Task.Run(() =>
         {
-            var processStartInfo = new ProcessStartInfo(path + "Endless.exe") { Verb = "" };
+            var processStartInfo = new ProcessStartInfo(path + "Endless.exe");
             Directory.SetCurrentDirectory(path);
             Process.Start(processStartInfo);
         });

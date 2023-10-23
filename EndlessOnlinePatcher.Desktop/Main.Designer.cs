@@ -76,8 +76,10 @@ partial class Main
         pbxLogout.TabIndex = 3;
         pbxLogout.TabStop = false;
         pbxLogout.Click += pbxLogout_Click;
+        pbxLogout.MouseDown += pbxLogout_MouseDown;
         pbxLogout.MouseEnter += pbxLogout_MouseEnter;
         pbxLogout.MouseLeave += pbxLogout_MouseLeave;
+        pbxLogout.MouseUp += pbxLogout_MouseUp;
         // 
         // pbxPatch
         // 
@@ -90,8 +92,10 @@ partial class Main
         pbxPatch.TabStop = false;
         pbxPatch.Visible = false;
         pbxPatch.MouseClick += pbxPatch_MouseClick;
+        pbxPatch.MouseDown += pbxPatch_MouseDown;
         pbxPatch.MouseEnter += pbxPatch_MouseEnter;
         pbxPatch.MouseLeave += pbxPatch_MouseLeave;
+        pbxPatch.MouseUp += pbxPatch_MouseUp;
         // 
         // pbxLaunch
         // 
@@ -104,8 +108,10 @@ partial class Main
         pbxLaunch.TabStop = false;
         pbxLaunch.Visible = false;
         pbxLaunch.Click += pbxLaunch_Click;
+        pbxLaunch.MouseDown += pbxLaunch_MouseDown;
         pbxLaunch.MouseEnter += pbxLaunch_MouseEnter;
         pbxLaunch.MouseLeave += pbxLaunch_MouseLeave;
+        pbxLaunch.MouseUp += pbxLaunch_MouseUp;
         // 
         // pbxExit
         // 
@@ -118,8 +124,10 @@ partial class Main
         pbxExit.TabStop = false;
         pbxExit.Visible = false;
         pbxExit.Click += pbxExit_Click;
+        pbxExit.MouseDown += pbxExit_MouseDown;
         pbxExit.MouseEnter += pbxExit_MouseEnter;
         pbxExit.MouseLeave += pbxExit_MouseLeave;
+        pbxExit.MouseUp += pbxExit_MouseUp;
         // 
         // Main
         // 

@@ -1,5 +1,6 @@
 using EndlessOnlinePatcher.Core;
 using EndlessOnlinePatcher.Desktop.Properties;
+using System.Media;
 
 namespace EndlessOnlinePatcher.Desktop;
 
@@ -14,6 +15,8 @@ public partial class Main : Form
     private Point _mouseDownLocation;
     private string _downloadLink = "";
     private readonly IClientVersionFetcher _clientVersionFetcher;
+    private SoundPlayer _sndClickDown = new(Resources.click_down);
+    private SoundPlayer _sndClickUp = new(Resources.click_up);
 
     public Main()
     {
@@ -135,5 +138,45 @@ public partial class Main : Form
         _patching = false;
         pbxPatch.Visible = false;
         pbxLaunch.Visible = true;
+    }
+
+    private void pbxLaunch_MouseDown(object sender, MouseEventArgs e)
+    {
+        _sndClickDown.Play();
+    }
+
+    private void pbxExit_MouseDown(object sender, MouseEventArgs e)
+    {
+        _sndClickDown.Play();
+    }
+
+    private void pbxPatch_MouseDown(object sender, MouseEventArgs e)
+    {
+        _sndClickDown.Play();
+    }
+
+    private void pbxPatch_MouseUp(object sender, MouseEventArgs e)
+    {
+        _sndClickUp.Play();
+    }
+
+    private void pbxLaunch_MouseUp(object sender, MouseEventArgs e)
+    {
+        _sndClickUp.Play();
+    }
+
+    private void pbxExit_MouseUp(object sender, MouseEventArgs e)
+    {
+        _sndClickUp.Play();
+    }
+
+    private void pbxLogout_MouseDown(object sender, MouseEventArgs e)
+    {
+        _sndClickDown.Play();
+    }
+
+    private void pbxLogout_MouseUp(object sender, MouseEventArgs e)
+    {
+        _sndClickUp.Play();
     }
 }
