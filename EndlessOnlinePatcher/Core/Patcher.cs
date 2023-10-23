@@ -1,4 +1,5 @@
 ﻿using EndlessOnlinePatcher.Extensions;
+using System;
 using System.IO.Compression;
 
 namespace EndlessOnlinePatcher.Core;
@@ -19,20 +20,26 @@ public class Patcher : IPatcher, IDisposable
     public async Task Patch(FileVersion version)
     {
         Clean();
-
-        var patchFolder = $"patch-{version}/";
         using var httpClient = new HttpClient();
         using var fileStream = new FileStream("patch.zip", FileMode.Create, FileAccess.Write);
         await httpClient.DownloadAsync(_link, fileStream, _progress);
         fileStream.Close();
+    }
+
+    public void ApplyPatch(FileVersion version)
+    {
+        var patchFolder = $"patch-{version}/";
         ZipFile.ExtractToDirectory("patch.zip", patchFolder);
         var allExceptConfig = Directory.EnumerateFiles(patchFolder, "*", SearchOption.AllDirectories)
             .Select(x => x.Remove(0, patchFolder.Length))
             .Where(x => !x.StartsWith("config"));
 
+        var i = 0;
         foreach (var file in allExceptConfig)
         {
             File.Copy($"{patchFolder}/{file}", $"{_localDirectory}/{file}", true);
+            i++;
+            _progress.Report(i / allExceptConfig.Count() * 100);
         }
     }
 
