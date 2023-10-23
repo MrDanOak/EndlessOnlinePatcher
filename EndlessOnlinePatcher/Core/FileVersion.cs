@@ -24,14 +24,14 @@ public record FileVersion(int Major = 0, int Minor = 0, int Build = 0, int Revis
 
     public static async Task<(string downloadLink, FileVersion)> GetRemoteAsync(string url)
     {
-        var regexVersion = new Regex("href=\"(.*EndlessOnline(\\d)(\\d)(\\d).zip)\"");
+        var regexVersion = new Regex("href=\"(.*EndlessOnline(\\d*).zip)\"");
         using var httpClient = new HttpClient();
         var endlessHomePage = await httpClient.GetStringAsync(url);
         var regexVersionMatches = regexVersion.Match(endlessHomePage);
         var downloadLink = regexVersionMatches.Groups[1].Value;
-        var major = int.Parse(regexVersionMatches.Groups[2].Value);
-        var minor = int.Parse(regexVersionMatches.Groups[3].Value);
-        var build = int.Parse(regexVersionMatches.Groups[4].Value);
+        var major = int.Parse(regexVersionMatches.Groups[2].Value[0].ToString());
+        var minor = int.Parse(regexVersionMatches.Groups[2].Value[1].ToString());
+        var build = int.Parse(regexVersionMatches.Groups[2].Value[2..].ToString());
 
         return (downloadLink, new FileVersion(major, minor, build, 0));
     }
