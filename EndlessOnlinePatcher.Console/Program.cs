@@ -1,5 +1,4 @@
 ﻿using EndlessOnlinePatcher.Core;
-using System.IO.Compression;
 
 var path = "C:/Program Files (x86)/Endless Online/";
 var clientVersionFetcher = new ClientVersionFetcher();
@@ -10,7 +9,6 @@ Console.WriteLine($"Remote Version {remoteVersion}");
 
 if (remoteVersion > localVersion)
 {
-    var patcher = new Patcher();
     Console.WriteLine("Downloading remote version...");
     {
         var currentTop = Console.CursorTop;
@@ -20,11 +18,9 @@ if (remoteVersion > localVersion)
             Console.Write($"Progress {x}%");
         });
 
-        await patcher.Patch(progress, downloadLink);
+        var patcher = new Patcher(progress, downloadLink, path);
+        await patcher.Patch(remoteVersion);
         Console.WriteLine();
     }
-    Console.WriteLine("Download complete. Extracting...");
-    ZipFile.ExtractToDirectory("patch.zip", path, System.Text.Encoding.UTF8, true);
-    Console.WriteLine("Extract Complete. Starting Endless...");
     await Windows.StartEO(path);
 }
