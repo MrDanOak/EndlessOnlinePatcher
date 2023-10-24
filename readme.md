@@ -31,4 +31,5 @@ If your local version is older than the most recent version according to the cli
     * Optional: Save this in some sort of config so it wouldn't need to be reset on every load
 * Checkbox for auto-launching the application after patch or if patching is not necessary 
     * Optional: Save this in some sort of config so it wouldn't need to be reset on every load
+* Embed News?
 * Tests???
