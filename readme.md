@@ -2,6 +2,10 @@
 
 This is a tool for patching [Endless Online](https://endless-online.com) because the developers were so rude as to come back after 10+ years and start working on it again 😂
 
+# Building
+
+This project targets .NET 7, so you would require the .NET SDK version 7 at a minimum. I have built this project using Visual Studio 2022, so it should just work™️ if you were to build using Visual Studio 2022.
+
 # How it works
 
 This tool fetches the latest page from the [official client download page](https://www.endless-online.com/client/download.html) and uses a regular expression to extract the version of the game client and compares it to what you have installed locally. 
