@@ -118,13 +118,49 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="eo-repeatable" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\eo-repeatable.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="click_down" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sfx002.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="click_up" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sfx003.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="eo_exit" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\eo-exit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="eo_exit_hover" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\eo-exit-hover.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="eo_launch" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\eo-launch.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="eo_launch_hover" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\eo-launch-hover.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="eo_logout" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\eo-logout.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="eo_logout_hover" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\eo-logout-hover.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="eo_ok" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\eo-ok.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="eo_ok_hover" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\eo-ok-hover.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="eo_patch" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\eo-patch.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="eo_patching" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\eo-patching.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="eo_patch_hover" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\eo-patch-hover.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="eo_popup" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\eo-popup.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="text_window" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text-window.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
