@@ -1,20 +1,16 @@
 ﻿using EndlessOnlinePatcher.Extensions;
-using System;
 using System.IO.Compression;
 
 namespace EndlessOnlinePatcher.Core;
-public class Patcher : IPatcher, IDisposable
+public sealed class Patcher : IPatcher, IDisposable
 {
     private IProgress<int> _progress { get; }
     private string _link { get; }
 
-    private string _localDirectory;
-
-    public Patcher(IProgress<int> progress, string downloadLink, string localDirectory)
+    public Patcher(IProgress<int> progress, string downloadLink)
     {
         _progress = progress;
         _link = downloadLink;
-        _localDirectory = localDirectory;
     }
 
     public async Task Patch(FileVersion version)
@@ -35,15 +31,16 @@ public class Patcher : IPatcher, IDisposable
             .Where(x => !x.StartsWith("config"));
 
         var i = 0;
+        var localDirectory = EndlessOnlineDirectory.Get().FullName;
         foreach (var file in allExceptConfig)
         {
-            File.Copy($"{patchFolder}/{file}", $"{_localDirectory}/{file}", true);
+            File.Copy($"{patchFolder}/{file}", $"{localDirectory}/{file}", true);
             i++;
             _progress.Report(i / allExceptConfig.Count() * 100);
         }
     }
 
-    private void Clean()
+    private static void Clean()
     {
         var patchDirectories = Directory.EnumerateDirectories("./").Where(x => x.Contains("patch"));
         foreach (var directory in patchDirectories)

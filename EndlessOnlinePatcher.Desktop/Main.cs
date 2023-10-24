@@ -8,15 +8,13 @@ public partial class Main : Form
 {
     private FileVersion? _remoteVersion = default;
     private FileVersion? _localVersion = default;
-    private const string _path = "C:/Program Files (x86)/Endless Online/";
-    private const string _clientDownloadPage = "https://www.endless-online.com/client/download.html";
     private bool _patching = false;
     private bool _dragging;
     private Point _mouseDownLocation;
     private string _downloadLink = "";
     private readonly IClientVersionFetcher _clientVersionFetcher;
-    private SoundPlayer _sndClickDown = new(Resources.click_down);
-    private SoundPlayer _sndClickUp = new(Resources.click_up);
+    private readonly SoundPlayer _sndClickDown = new(Resources.click_down);
+    private readonly SoundPlayer _sndClickUp = new(Resources.click_up);
 
     public Main()
     {
@@ -26,8 +24,8 @@ public partial class Main : Form
 
     private async void Main_Shown(object sender, EventArgs e)
     {
-        _localVersion = _clientVersionFetcher.GetLocal($"{_path}Endless.exe");
-        (_downloadLink, _remoteVersion) = await _clientVersionFetcher.GetRemoteAsync(_clientDownloadPage);
+        _localVersion = _clientVersionFetcher.GetLocal();
+        (_downloadLink, _remoteVersion) = await _clientVersionFetcher.GetRemoteAsync();
         if (_localVersion == _remoteVersion)
         {
             lblMessage.Text = "You are already up to date with the latest version";
@@ -102,7 +100,7 @@ public partial class Main : Form
 
     private async void pbxLaunch_Click(object sender, EventArgs e)
     {
-        await Windows.StartEO(_path);
+        await Windows.StartEO();
         Close();
     }
 
@@ -130,14 +128,22 @@ public partial class Main : Form
         var status = () => "Downloading Latest Patch";
         using var patcher = new Patcher(new Progress<int>(x =>
         {
+            if (x >= 99 && status().Contains("Extracting"))
+            {
+                // weird multithreading bug because of this I think
+                lblMessage.Text = "Patch applied! You are now on the latest version and can launch the game";
+                return;
+            }
+
             lblMessage.Text = $"{status()}... {x}%.";
-        }), _downloadLink, _path);
+        }), _downloadLink);
         await patcher.Patch(_remoteVersion!);
         status = () => "Extracting and Applying Latest Patch";
         patcher.ApplyPatch(_remoteVersion!);
         _patching = false;
         pbxPatch.Visible = false;
         pbxLaunch.Visible = true;
+        Thread.Sleep(10);
     }
 
     private void pbxLaunch_MouseDown(object sender, MouseEventArgs e)

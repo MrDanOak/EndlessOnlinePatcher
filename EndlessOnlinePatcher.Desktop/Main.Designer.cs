@@ -28,6 +28,7 @@ partial class Main
     /// </summary>
     private void InitializeComponent()
     {
+        System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
         label1 = new Label();
         lblMessage = new Label();
         pbxLogout = new PictureBox();
@@ -51,7 +52,7 @@ partial class Main
         label1.TabIndex = 1;
         label1.Text = "Endless Online Patcher";
         label1.MouseDown += Main_MouseDown;
-        label1.MouseMove += Main_MouseUp;
+        label1.MouseMove += Main_MouseMove;
         label1.MouseUp += Main_MouseUp;
         // 
         // lblMessage
@@ -143,6 +144,7 @@ partial class Main
         Controls.Add(lblMessage);
         Controls.Add(label1);
         FormBorderStyle = FormBorderStyle.None;
+        Icon = (Icon)resources.GetObject("$this.Icon");
         MaximumSize = new Size(290, 125);
         MinimumSize = new Size(290, 125);
         Name = "Main";
