@@ -15,13 +15,13 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_0D5B3FF9D0A548E89444D5280D619588"
+        "MsmKey" = "8:_0852552B134641D982A8550FEDC33CA8"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_BEF2D1A7E68A4EF5BFF40C5F4C810811"
+        "MsmKey" = "8:_0D5B3FF9D0A548E89444D5280D619588"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -43,6 +43,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
         "Release"
         {
@@ -59,6 +67,22 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
+            }
         }
     }
     "Deployable"
@@ -90,9 +114,9 @@
         }
         "File"
         {
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_BEF2D1A7E68A4EF5BFF40C5F4C810811"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_0852552B134641D982A8550FEDC33CA8"
             {
-            "SourcePath" = "8:..\\..\\..\\OneDrive\\Pictures\\eo-patcher-icon.ico"
+            "SourcePath" = "8:..\\EndlessOnlinePatcher.Desktop\\eo-patcher-icon.ico"
             "TargetName" = "8:eo-patcher-icon.ico"
             "Tag" = "8:"
             "Folder" = "8:_059A38FC8DBC4A81B8479739F12BCF88"
@@ -289,7 +313,7 @@
         {
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_65224A7113ED4B97B47190B83A1B229C"
             {
-            "Name" = "8:EndlessOnlinePatcher"
+            "Name" = "8:Endless Online Patcher"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
@@ -298,12 +322,12 @@
             "Target" = "8:_0D5B3FF9D0A548E89444D5280D619588"
             "Folder" = "8:_92C9151A449E409C967AC28CCA885C4F"
             "WorkingFolder" = "8:_059A38FC8DBC4A81B8479739F12BCF88"
-            "Icon" = "8:_BEF2D1A7E68A4EF5BFF40C5F4C810811"
+            "Icon" = "8:_0852552B134641D982A8550FEDC33CA8"
             "Feature" = "8:"
             }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_8DE0342B2053414788E2301E41B5376A"
             {
-            "Name" = "8:EndlessOnlinePatcher"
+            "Name" = "8:Endless Online Patcher"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
@@ -312,7 +336,7 @@
             "Target" = "8:_0D5B3FF9D0A548E89444D5280D619588"
             "Folder" = "8:_BEF9FA357090495CB9651A5A92111EB0"
             "WorkingFolder" = "8:_059A38FC8DBC4A81B8479739F12BCF88"
-            "Icon" = "8:_BEF2D1A7E68A4EF5BFF40C5F4C810811"
+            "Icon" = "8:_0852552B134641D982A8550FEDC33CA8"
             "Feature" = "8:"
             }
         }

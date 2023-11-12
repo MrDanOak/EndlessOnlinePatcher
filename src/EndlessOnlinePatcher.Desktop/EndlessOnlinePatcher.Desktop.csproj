@@ -21,13 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\..\..\OneDrive\Pictures\eo-patcher-icon.png">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\EndlessOnlinePatcher\EndlessOnlinePatcher.csproj" />
   </ItemGroup>
 
