@@ -42,7 +42,7 @@ public static class Windows
                 Privileges = new LUID_AND_ATTRIBUTES[1]
             };
 
-            if (!LookupPrivilegeValue(null, "SeIncreaseQuotaPrivilege", ref tkp.Privileges[0].Luid))
+            if (!LookupPrivilegeValue("", "SeIncreaseQuotaPrivilege", ref tkp.Privileges[0].Luid))
                 return;
 
             tkp.Privileges[0].Attributes = 0x00000002;
@@ -92,7 +92,7 @@ public static class Windows
             // Start the target process with the new token.
             var si = new STARTUPINFO();
             var pi = new PROCESS_INFORMATION();
-            if (!CreateProcessWithTokenW(hPrimaryToken, 0, fileName, "", 0, IntPtr.Zero, Path.GetDirectoryName(fileName), ref si, out pi))
+            if (!CreateProcessWithTokenW(hPrimaryToken, 0, fileName, "", 0, IntPtr.Zero, Path.GetDirectoryName(fileName)!, ref si, out pi))
                 return;
         }
         finally

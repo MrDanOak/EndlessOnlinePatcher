@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 namespace EndlessOnlinePatcher.Core;
 public partial class ClientVersionFetcher : IClientVersionFetcher
 {
-    [GeneratedRegex("href=\"(.*EndlessOnline(\\d*)([a-zA-Z]).zip)\"")]
+    [GeneratedRegex("href=\"(.*EndlessOnline(\\d*)([a-zA-Z])*.zip)\"")]
     private static partial Regex EndlessOnlineZipRegex();
 
     public FileVersion GetLocal()
@@ -27,7 +27,7 @@ public partial class ClientVersionFetcher : IClientVersionFetcher
         var minor = int.Parse(regexVersionMatches.Groups[2].Value[1].ToString());
         var build = int.Parse(regexVersionMatches.Groups[2].Value[2..].ToString());
 
-        if (regexVersionMatches.Length > 3)
+        if (regexVersionMatches.Groups.Count > 3 && !string.IsNullOrWhiteSpace(regexVersionMatches.Groups[3].Value))
         {
             var patchAlpha = regexVersionMatches.Groups[3].Value[0];
             var patch = patchAlpha switch
@@ -36,6 +36,8 @@ public partial class ClientVersionFetcher : IClientVersionFetcher
                 var p when patchAlpha >= 'A' && patchAlpha <= 'Z' => p - 'A',
                 _ => throw new ArgumentException("Patch must be alphabetical")
             };
+
+            return (downloadLink, new FileVersion(major, minor, build, patch));
         }
 
         return (downloadLink, new FileVersion(major, minor, build, 0));
