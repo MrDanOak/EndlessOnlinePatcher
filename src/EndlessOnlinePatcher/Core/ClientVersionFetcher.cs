@@ -9,6 +9,9 @@ public partial class ClientVersionFetcher : IClientVersionFetcher
 
     public FileVersion GetLocal()
     {
+        if (!File.Exists(EndlessOnlineDirectory.GetExe()))
+            return new FileVersion(0, 0, 0, 0);
+
         var versionInfo = FileVersionInfo.GetVersionInfo(EndlessOnlineDirectory.GetExe());
 
         if (versionInfo == null)

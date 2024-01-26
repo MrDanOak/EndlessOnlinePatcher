@@ -1,5 +1,6 @@
 ﻿using EndlessOnlinePatcher.Extensions;
 using System.IO.Compression;
+using System.Text.RegularExpressions;
 
 namespace EndlessOnlinePatcher.Core;
 public sealed class Patcher : IPatcher, IDisposable
@@ -22,6 +23,12 @@ public sealed class Patcher : IPatcher, IDisposable
         fileStream.Close();
     }
 
+    private string GetDirectoryFrom(string filePath)
+    {
+        var regex = new Regex("(.*)\\\\");
+        return regex.Match(filePath).Value;
+    }
+
     public void ApplyPatch(FileVersion version)
     {
         var patchFolder = $"patch-{version}/";
@@ -34,6 +41,10 @@ public sealed class Patcher : IPatcher, IDisposable
         var localDirectory = EndlessOnlineDirectory.Get().FullName;
         foreach (var file in allExceptConfig)
         {
+            var relativeDirectory = $"{localDirectory}/{GetDirectoryFrom(file)}";
+            if (!Directory.Exists(relativeDirectory))
+                Directory.CreateDirectory(relativeDirectory);
+
             File.Copy($"{patchFolder}/{file}", $"{localDirectory}/{file}", true);
             i++;
             _progress.Report(i / allExceptConfig.Count() * 100);

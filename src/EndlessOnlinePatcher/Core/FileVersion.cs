@@ -1,7 +1,4 @@
-﻿using System.Diagnostics;
-using System.Text.RegularExpressions;
-
-namespace EndlessOnlinePatcher.Core;
+﻿namespace EndlessOnlinePatcher.Core;
 
 public record FileVersion(int Major = 0, int Minor = 0, int Build = 0, int Revision = 0)
 {
