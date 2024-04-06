@@ -50,6 +50,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
             }
         }
         "Release"
@@ -57,7 +65,7 @@
         "DisplayName" = "8:Release"
         "IsDebugOnly" = "11:FALSE"
         "IsReleaseOnly" = "11:TRUE"
-        "OutputFilename" = "8:Release\\EndlessOnlinePatcherSetup.msi"
+        "OutputFilename" = "8:Release\\eopatcher.setup.msi"
         "PackageFilesAs" = "3:2"
         "PackageFileSize" = "3:-2147483648"
         "CabType" = "3:1"
@@ -191,7 +199,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Patcher"
         "ProductCode" = "8:{0FD5FEAA-01CD-4C97-9339-8359AF559036}"
-        "PackageCode" = "8:{9C6E75BC-5415-4DCE-A0CB-AD28B5601308}"
+        "PackageCode" = "8:{A137E271-2470-41BE-8646-303DDC18C803}"
         "UpgradeCode" = "8:{35729CFE-636D-4D0E-A5DE-A7377E56C445}"
         "AspNetVersion" = "8:"
         "RestartWWWService" = "11:FALSE"
@@ -740,7 +748,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_0D5B3FF9D0A548E89444D5280D619588"
             {
-            "SourcePath" = "8:..\\EndlessOnlinePatcher.Desktop\\obj\\Release\\net7.0-windows\\apphost.exe"
+            "SourcePath" = "8:..\\EndlessOnlinePatcher.Desktop\\obj\\Release\\net8.0-windows8.0\\apphost.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_059A38FC8DBC4A81B8479739F12BCF88"
