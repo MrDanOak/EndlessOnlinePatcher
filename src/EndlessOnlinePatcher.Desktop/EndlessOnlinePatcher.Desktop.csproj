@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net7.0-windows</TargetFramework>
+    <TargetFramework>net8.0-windows8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -12,8 +12,10 @@
     <Company>OakTech</Company>
     <Product>Endless Online Patcher</Product>
     <PackageIcon>eo-patcher-icon.png</PackageIcon>
-    <AssemblyVersion>0.0.0.4</AssemblyVersion>
-    <FileVersion>0.0.0.4</FileVersion>
+    <AssemblyVersion>0.0.0.5</AssemblyVersion>
+    <FileVersion>0.0.0.5</FileVersion>
+    <AssemblyName>eopatcher</AssemblyName>
+    <StartupObject>EndlessOnlinePatcher.Desktop.Program</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>

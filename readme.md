@@ -21,6 +21,7 @@ If your local version is older than the most recent version according to the cli
 * Ability to launch the game directly from the patcher
 * UI fits the theme of the game
 * Ignores the downloaded config so it doesn't overwrite the config you have locally
+* Installs the game if not already installed
 
 ![New Version Available](./docs/img/new_version.png)
 
@@ -31,6 +32,5 @@ If your local version is older than the most recent version according to the cli
     * Optional: Save this in some sort of config so it wouldn't need to be reset on every load
 * Checkbox for auto-launching the application after patch or if patching is not necessary 
     * Optional: Save this in some sort of config so it wouldn't need to be reset on every load
-* Install the game if it is not already there
 * Embed News?
 * Tests???

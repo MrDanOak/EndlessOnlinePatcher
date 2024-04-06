@@ -33,8 +33,9 @@ public partial class Main : Form
         }
         else
         {
-            lblMessage.Text = $"A new version of the client is available (v{_localVersion} -> v{_remoteVersion})";
+            lblMessage.Text = $"A new version of the client is available{Environment.NewLine}(v{_localVersion} -> v{_remoteVersion})";
             pbxPatch.Visible = true;
+            pbxSkip.Visible = true;
         }
         pbxExit.Visible = true;
     }
@@ -100,7 +101,7 @@ public partial class Main : Form
 
     private async void pbxLaunch_Click(object sender, EventArgs e)
     {
-        await Windows.StartEO();
+        await Core.Windows.StartEO();
         Close();
     }
 
@@ -119,27 +120,42 @@ public partial class Main : Form
         pbxExit.Image = Resources.eo_exit;
     }
 
+    private void pbxSkip_MouseEnter(object sender, EventArgs e)
+    {
+        pbxSkip.Image = Resources.skip_hover;
+    }
+
+    private void pbxSkip_MouseLeave(object sender, EventArgs e)
+    {
+        pbxSkip.Image = Resources.skip;
+    }
+
+    delegate void SetPatchTextCallback(string text);
+    private void SetPatchText(string text)
+    {
+        if (lblMessage.InvokeRequired)
+        {
+
+            SetPatchTextCallback d = new SetPatchTextCallback(SetPatchText);
+            Invoke(d, new object[] { text });
+            return;
+        }
+
+        lblMessage.Text = text;
+    }
+
     private async void pbxPatch_MouseClick(object sender, MouseEventArgs e)
     {
         if (_patching) return;
 
         _patching = true;
+        pbxSkip.Visible = false;
         pbxPatch.Image = Resources.eo_patching;
-        var status = () => "Downloading Latest Patch";
-        using var patcher = new Patcher(new Progress<int>(x =>
-        {
-            if (x >= 99 && status().Contains("Extracting"))
-            {
-                // weird multithreading bug because of this I think
-                lblMessage.Text = "Patch applied! You are now on the latest version and can launch the game";
-                return;
-            }
 
-            lblMessage.Text = $"{status()}... {x}%.";
-        }), _downloadLink);
+        using var patcher = new Patcher(_downloadLink, SetPatchText);
+
         await patcher.Patch(_remoteVersion!);
-        status = () => "Extracting and Applying Latest Patch";
-        patcher.ApplyPatch(_remoteVersion!);
+
         _patching = false;
         pbxPatch.Visible = false;
         pbxLaunch.Visible = true;
@@ -158,11 +174,13 @@ public partial class Main : Form
 
     private void pbxPatch_MouseDown(object sender, MouseEventArgs e)
     {
+        if (_patching) return;
         _sndClickDown.Play();
     }
 
     private void pbxPatch_MouseUp(object sender, MouseEventArgs e)
     {
+        if (_patching) return;
         _sndClickUp.Play();
     }
 
@@ -182,6 +200,16 @@ public partial class Main : Form
     }
 
     private void pbxLogout_MouseUp(object sender, MouseEventArgs e)
+    {
+        _sndClickUp.Play();
+    }
+
+    private void pbxSkip_MouseDown(object sender, MouseEventArgs e)
+    {
+        _sndClickDown.Play();
+    }
+
+    private void pbxSkip_MouseUp(object sender, MouseEventArgs e)
     {
         _sndClickUp.Play();
     }
