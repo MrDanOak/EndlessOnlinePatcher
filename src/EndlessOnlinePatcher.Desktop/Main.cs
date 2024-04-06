@@ -130,27 +130,32 @@ public partial class Main : Form
         pbxSkip.Image = Resources.skip;
     }
 
+    delegate void SetPatchTextCallback(string text);
+    private void SetPatchText(string text)
+    {
+        if (lblMessage.InvokeRequired)
+        {
+
+            SetPatchTextCallback d = new SetPatchTextCallback(SetPatchText);
+            Invoke(d, new object[] { text });
+            return;
+        }
+
+        lblMessage.Text = text;
+    }
+
     private async void pbxPatch_MouseClick(object sender, MouseEventArgs e)
     {
         if (_patching) return;
 
         _patching = true;
+        pbxSkip.Visible = false;
         pbxPatch.Image = Resources.eo_patching;
-        var status = () => "Downloading Latest Patch";
-        using var patcher = new Patcher(new Progress<int>(x =>
-        {
-            if (x >= 99 && status().Contains("Extracting"))
-            {
-                // weird multithreading bug because of this I think
-                lblMessage.Text = "Patch applied! You are now on the latest version and can launch the game";
-                return;
-            }
 
-            lblMessage.Text = $"{status()}... {x}%.";
-        }), _downloadLink);
+        using var patcher = new Patcher(_downloadLink, SetPatchText);
+
         await patcher.Patch(_remoteVersion!);
-        status = () => "Extracting and Applying Latest Patch";
-        patcher.ApplyPatch(_remoteVersion!);
+
         _patching = false;
         pbxPatch.Visible = false;
         pbxLaunch.Visible = true;
@@ -169,11 +174,13 @@ public partial class Main : Form
 
     private void pbxPatch_MouseDown(object sender, MouseEventArgs e)
     {
+        if (_patching) return;
         _sndClickDown.Play();
     }
 
     private void pbxPatch_MouseUp(object sender, MouseEventArgs e)
     {
+        if (_patching) return;
         _sndClickUp.Play();
     }
 
