@@ -35,10 +35,12 @@ partial class Main
         pbxPatch = new PictureBox();
         pbxLaunch = new PictureBox();
         pbxExit = new PictureBox();
+        pbxSkip = new PictureBox();
         ((System.ComponentModel.ISupportInitialize)pbxLogout).BeginInit();
         ((System.ComponentModel.ISupportInitialize)pbxPatch).BeginInit();
         ((System.ComponentModel.ISupportInitialize)pbxLaunch).BeginInit();
         ((System.ComponentModel.ISupportInitialize)pbxExit).BeginInit();
+        ((System.ComponentModel.ISupportInitialize)pbxSkip).BeginInit();
         SuspendLayout();
         // 
         // label1
@@ -118,7 +120,7 @@ partial class Main
         // 
         pbxExit.BackColor = Color.Transparent;
         pbxExit.Image = Properties.Resources.eo_exit;
-        pbxExit.Location = new Point(94, 86);
+        pbxExit.Location = new Point(90, 86);
         pbxExit.Name = "pbxExit";
         pbxExit.Size = new Size(91, 30);
         pbxExit.TabIndex = 6;
@@ -130,6 +132,22 @@ partial class Main
         pbxExit.MouseLeave += pbxExit_MouseLeave;
         pbxExit.MouseUp += pbxExit_MouseUp;
         // 
+        // pbxSkip
+        // 
+        pbxSkip.BackColor = Color.Transparent;
+        pbxSkip.Image = Properties.Resources.skip;
+        pbxSkip.Location = new Point(187, 53);
+        pbxSkip.Name = "pbxSkip";
+        pbxSkip.Size = new Size(91, 30);
+        pbxSkip.TabIndex = 7;
+        pbxSkip.TabStop = false;
+        pbxSkip.Visible = false;
+        pbxSkip.Click += pbxLaunch_Click;
+        pbxSkip.MouseDown += pbxSkip_MouseDown;
+        pbxSkip.MouseEnter += pbxSkip_MouseEnter;
+        pbxSkip.MouseLeave += pbxSkip_MouseLeave;
+        pbxSkip.MouseUp += pbxSkip_MouseUp;
+        // 
         // Main
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
@@ -137,6 +155,7 @@ partial class Main
         BackgroundImage = Properties.Resources.eo_popup;
         BackgroundImageLayout = ImageLayout.Center;
         ClientSize = new Size(290, 125);
+        Controls.Add(pbxSkip);
         Controls.Add(pbxExit);
         Controls.Add(pbxLaunch);
         Controls.Add(pbxPatch);
@@ -159,6 +178,7 @@ partial class Main
         ((System.ComponentModel.ISupportInitialize)pbxPatch).EndInit();
         ((System.ComponentModel.ISupportInitialize)pbxLaunch).EndInit();
         ((System.ComponentModel.ISupportInitialize)pbxExit).EndInit();
+        ((System.ComponentModel.ISupportInitialize)pbxSkip).EndInit();
         ResumeLayout(false);
         PerformLayout();
     }
@@ -170,4 +190,5 @@ partial class Main
     private PictureBox pbxPatch;
     private PictureBox pbxLaunch;
     private PictureBox pbxExit;
+    private PictureBox pbxSkip;
 }
