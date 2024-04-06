@@ -31,6 +31,7 @@ public sealed class Patcher : IPatcher, IDisposable
 
     public void ApplyPatch(FileVersion version)
     {
+        var localDirectory = EndlessOnlineDirectory.Get().FullName;
         var patchFolder = $"patch-{version}/";
         ZipFile.ExtractToDirectory("patch.zip", patchFolder);
         var allExceptConfig = Directory.EnumerateFiles(patchFolder, "*", SearchOption.AllDirectories)
@@ -38,7 +39,6 @@ public sealed class Patcher : IPatcher, IDisposable
             .Where(x => !x.StartsWith("config"));
 
         var i = 0;
-        var localDirectory = EndlessOnlineDirectory.Get().FullName;
         foreach (var file in allExceptConfig)
         {
             var relativeDirectory = $"{localDirectory}/{GetDirectoryFrom(file)}";

@@ -33,8 +33,9 @@ public partial class Main : Form
         }
         else
         {
-            lblMessage.Text = $"A new version of the client is available (v{_localVersion} -> v{_remoteVersion})";
+            lblMessage.Text = $"A new version of the client is available{Environment.NewLine}(v{_localVersion} -> v{_remoteVersion})";
             pbxPatch.Visible = true;
+            pbxSkip.Visible = true;
         }
         pbxExit.Visible = true;
     }
@@ -100,7 +101,7 @@ public partial class Main : Form
 
     private async void pbxLaunch_Click(object sender, EventArgs e)
     {
-        await Windows.StartEO();
+        await Core.Windows.StartEO();
         Close();
     }
 
@@ -117,6 +118,16 @@ public partial class Main : Form
     private void pbxExit_MouseLeave(object sender, EventArgs e)
     {
         pbxExit.Image = Resources.eo_exit;
+    }
+
+    private void pbxSkip_MouseEnter(object sender, EventArgs e)
+    {
+        pbxSkip.Image = Resources.skip_hover;
+    }
+
+    private void pbxSkip_MouseLeave(object sender, EventArgs e)
+    {
+        pbxSkip.Image = Resources.skip;
     }
 
     private async void pbxPatch_MouseClick(object sender, MouseEventArgs e)
@@ -182,6 +193,16 @@ public partial class Main : Form
     }
 
     private void pbxLogout_MouseUp(object sender, MouseEventArgs e)
+    {
+        _sndClickUp.Play();
+    }
+
+    private void pbxSkip_MouseDown(object sender, MouseEventArgs e)
+    {
+        _sndClickDown.Play();
+    }
+
+    private void pbxSkip_MouseUp(object sender, MouseEventArgs e)
     {
         _sndClickUp.Play();
     }
