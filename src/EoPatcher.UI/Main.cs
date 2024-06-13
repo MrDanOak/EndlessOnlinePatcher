@@ -1,8 +1,5 @@
 using EoPatcher.Services;
 using EoPatcher.Services.VersionFetchers;
-using OneOf;
-using OneOf.Types;
-using System.Diagnostics;
 using System.Media;
 using System.Reflection;
 
@@ -27,7 +24,7 @@ public partial class Main : Form
 
     private void Main_Shown(object sender, EventArgs e)
     {
-        string version = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion ?? "0.0.0.0";
+        string version = Assembly.GetEntryAssembly().GetName().Version.ToString() ?? "0.0.0.0";
         lblTitle.Text = $"Endless Online Patcher v{version}";
 
         SetPatchText("Getting local version...");
