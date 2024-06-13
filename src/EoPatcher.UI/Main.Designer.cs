@@ -28,6 +28,7 @@ partial class Main
     /// </summary>
     private void InitializeComponent()
     {
+        components = new System.ComponentModel.Container();
         System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
         lblTitle = new Label();
         lblMessage = new Label();
@@ -36,6 +37,7 @@ partial class Main
         pbxLaunch = new PictureBox();
         pbxExit = new PictureBox();
         pbxSkip = new PictureBox();
+        lblMessageHover = new ToolTip(components);
         ((System.ComponentModel.ISupportInitialize)pbxLogout).BeginInit();
         ((System.ComponentModel.ISupportInitialize)pbxPatch).BeginInit();
         ((System.ComponentModel.ISupportInitialize)pbxLaunch).BeginInit();
@@ -191,4 +193,5 @@ partial class Main
     private PictureBox pbxLaunch;
     private PictureBox pbxExit;
     private PictureBox pbxSkip;
+    private ToolTip lblMessageHover;
 }

@@ -30,9 +30,9 @@ public partial class Main : Form
         string version = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion ?? "0.0.0.0";
         lblTitle.Text = $"Endless Online Patcher v{version}";
 
-        lblMessage.Text = "Getting local version...";
+        SetPatchText("Getting local version...");
         var localVersion = _localVersionRepository.Get();
-        lblMessage.Text = "Getting remote version...";
+        SetPatchText("Getting remote version...");
 
         _serverVersionFetcher
             .Get()
@@ -41,12 +41,12 @@ public partial class Main : Form
                 _serverVersion = v;
                 if (localVersion == v)
                 {
-                    lblMessage.Text = $"You are already up to date with the latest version v{localVersion}";
+                    SetPatchText($"You are already up to date with the latest version v{localVersion}");
                     pbxLaunch.Visible = true;
                 }
                 else
                 {
-                    lblMessage.Text = $"A new version of the client is available{Environment.NewLine}(v{localVersion} -> v{_serverVersion})";
+                    SetPatchText($"A new version of the client is available{Environment.NewLine}(v{localVersion} -> v{_serverVersion})");
                     pbxPatch.Visible = true;
                     pbxSkip.Visible = true;
                 }
@@ -54,7 +54,7 @@ public partial class Main : Form
             },
             e =>
             {
-                lblMessage.Text = e.Value;
+                SetPatchText(e.Value);
                 pbxExit.Visible = true;
                 pbxPatch.Visible = false;
                 pbxSkip.Visible = false;
@@ -164,6 +164,7 @@ public partial class Main : Form
         }
 
         lblMessage.Text = text;
+        lblMessageHover.SetToolTip(lblMessage, text);
     }
 
     private async void pbxPatch_MouseClick(object sender, MouseEventArgs e)
@@ -176,7 +177,9 @@ public partial class Main : Form
 
         using var patcher = new PatchOrchestrator(SetPatchText);
 
-        await patcher.Patch(_serverVersion);
+        var result = await patcher.Patch(_serverVersion);
+        if (result.IsT1)
+            SetPatchText(result.AsT1.Value);
 
         _patching = false;
         pbxPatch.Visible = false;

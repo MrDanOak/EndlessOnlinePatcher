@@ -1,11 +1,13 @@
 ﻿using EoPatcher.Core.Services;
 using EoPatcher.Services.VersionFetchers;
+using OneOf;
+using OneOf.Types;
 
 namespace EoPatcher.Services;
 
 internal interface IPatchOrchestrator
 {
-    public Task Patch(Version version);
+    public Task<OneOf<Success, Error<string>>> Patch(Version version);
 }
 
 public sealed class PatchOrchestrator : IPatchOrchestrator, IDisposable
@@ -21,12 +23,16 @@ public sealed class PatchOrchestrator : IPatchOrchestrator, IDisposable
         _localVersionRepository = new LocalVersionRepository();
     }
 
-    public async Task Patch(Version version)
+    public async Task<OneOf<Success, Error<string>>> Patch(Version version)
     {
         Clean();
-        await _httpService.DownloadLatestPatchAsync(version);
+        var downloadResult = await _httpService.DownloadLatestPatchAsync(version);
+        if (downloadResult.IsT1)
+            return downloadResult.AsT1;
+
         await _fileService.ExtractPatch(version);
         _localVersionRepository.Save(version);
+        return new Success();
     }
 
     public void Dispose()
