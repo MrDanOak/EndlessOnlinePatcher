@@ -1,4 +1,4 @@
-﻿namespace EndlessOnlinePatcher.Desktop;
+﻿namespace EoPatcher.UI;
 
 partial class Main
 {
@@ -28,14 +28,16 @@ partial class Main
     /// </summary>
     private void InitializeComponent()
     {
+        components = new System.ComponentModel.Container();
         System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
-        label1 = new Label();
+        lblTitle = new Label();
         lblMessage = new Label();
         pbxLogout = new PictureBox();
         pbxPatch = new PictureBox();
         pbxLaunch = new PictureBox();
         pbxExit = new PictureBox();
         pbxSkip = new PictureBox();
+        lblMessageHover = new ToolTip(components);
         ((System.ComponentModel.ISupportInitialize)pbxLogout).BeginInit();
         ((System.ComponentModel.ISupportInitialize)pbxPatch).BeginInit();
         ((System.ComponentModel.ISupportInitialize)pbxLaunch).BeginInit();
@@ -43,19 +45,19 @@ partial class Main
         ((System.ComponentModel.ISupportInitialize)pbxSkip).BeginInit();
         SuspendLayout();
         // 
-        // label1
+        // lblTitle
         // 
-        label1.AutoSize = true;
-        label1.BackColor = Color.Transparent;
-        label1.ForeColor = Color.LemonChiffon;
-        label1.Location = new Point(13, 13);
-        label1.Name = "label1";
-        label1.Size = new Size(127, 15);
-        label1.TabIndex = 1;
-        label1.Text = "Endless Online Patcher";
-        label1.MouseDown += Main_MouseDown;
-        label1.MouseMove += Main_MouseMove;
-        label1.MouseUp += Main_MouseUp;
+        lblTitle.AutoSize = true;
+        lblTitle.BackColor = Color.Transparent;
+        lblTitle.ForeColor = Color.LemonChiffon;
+        lblTitle.Location = new Point(13, 13);
+        lblTitle.Name = "lblTitle";
+        lblTitle.Size = new Size(127, 15);
+        lblTitle.TabIndex = 1;
+        lblTitle.Text = "Endless Online Patcher";
+        lblTitle.MouseDown += Main_MouseDown;
+        lblTitle.MouseMove += Main_MouseMove;
+        lblTitle.MouseUp += Main_MouseUp;
         // 
         // lblMessage
         // 
@@ -161,7 +163,7 @@ partial class Main
         Controls.Add(pbxPatch);
         Controls.Add(pbxLogout);
         Controls.Add(lblMessage);
-        Controls.Add(label1);
+        Controls.Add(lblTitle);
         FormBorderStyle = FormBorderStyle.None;
         Icon = (Icon)resources.GetObject("$this.Icon");
         MaximumSize = new Size(290, 125);
@@ -184,11 +186,12 @@ partial class Main
     }
 
     #endregion
-    private Label label1;
+    private Label lblTitle;
     private Label lblMessage;
     private PictureBox pbxLogout;
     private PictureBox pbxPatch;
     private PictureBox pbxLaunch;
     private PictureBox pbxExit;
     private PictureBox pbxSkip;
+    private ToolTip lblMessageHover;
 }

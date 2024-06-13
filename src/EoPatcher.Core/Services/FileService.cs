@@ -1,40 +1,25 @@
-﻿using EndlessOnlinePatcher.Extensions;
+﻿using EoPatcher.Models;
 using System.Diagnostics;
 using System.IO.Compression;
-using System.Numerics;
 using System.Text.RegularExpressions;
 
-namespace EndlessOnlinePatcher.Core;
+namespace EoPatcher.Core.Services;
 
-public sealed class Patcher : IPatcher, IDisposable
+public interface IFileService
 {
-    private string _link { get; }
+    public Task ExtractPatch(Version version);
+}
 
+public class FileService : IFileService
+{
     private Action<string> _setPatchTextCallback;
 
-    public Patcher(string downloadLink, Action<string> setPatchTextCallback)
+    public FileService(Action<string> setPatchTextCallback)
     {
-        _link = downloadLink;
         _setPatchTextCallback = setPatchTextCallback;
     }
 
-    public async Task Patch(FileVersion version)
-    {
-        Clean();
-        await DownloadPatch();
-        await ApplyPatch(version);
-    }
-
-    private async Task DownloadPatch()
-    {
-        var progress = new Progress<int>(x => _setPatchTextCallback($"Downloading... {x}%"));
-        using var httpClient = new HttpClient();
-        using var fileStream = new FileStream("patch.zip", FileMode.Create, FileAccess.Write);
-        await httpClient.DownloadAsync(_link, fileStream, progress);
-        fileStream.Close();
-    }
-
-    private async Task ApplyPatch(FileVersion version)
+    public async Task ExtractPatch(Version version)
     {
         var localDirectory = EndlessOnlineDirectory.Get().FullName;
         var patchFolder = $"patch-{version}/";
@@ -70,28 +55,5 @@ public sealed class Patcher : IPatcher, IDisposable
     }
 
     private static string GetDirectoryFrom(string filePath)
-    {
-        var regex = new Regex("(.*)\\\\");
-        return regex.Match(filePath).Value;
-    }
-
-    private static void Clean()
-    {
-        var patchDirectories = Directory.EnumerateDirectories("./").Where(x => x.Contains("patch"));
-        foreach (var directory in patchDirectories)
-        {
-            Directory.Delete(directory, true);
-        }
-
-        var patchZips = Directory.EnumerateFiles("./", "*.zip");
-        foreach (var zip in patchZips)
-        {
-            File.Delete(zip);
-        }
-    }
-
-    public void Dispose()
-    {
-        Clean();
-    }
+        => new Regex("(.*)\\\\").Match(filePath).Value;
 }

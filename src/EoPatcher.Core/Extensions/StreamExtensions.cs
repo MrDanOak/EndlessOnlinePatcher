@@ -1,6 +1,5 @@
-﻿using System;
+﻿namespace EoPatcher.Extensions;
 
-namespace EndlessOnlinePatcher.Extensions;
 public static class StreamExtensions
 {
     public static async Task CopyToAsync(this Stream source, Stream destination, int bufferSize, long contentLength, IProgress<int>? progress = null, CancellationToken cancellationToken = default)

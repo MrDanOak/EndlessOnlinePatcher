@@ -1,4 +1,5 @@
-﻿namespace EndlessOnlinePatcher.Core;
+﻿namespace EoPatcher.Models;
+
 public static class EndlessOnlineDirectory
 {
     public static DirectoryInfo Get()

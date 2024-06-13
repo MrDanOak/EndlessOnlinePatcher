@@ -1,4 +1,4 @@
-namespace EndlessOnlinePatcher.Desktop;
+namespace EoPatcher.UI;
 
 internal static class Program
 {

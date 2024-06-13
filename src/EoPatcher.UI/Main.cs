@@ -1,43 +1,65 @@
-using EndlessOnlinePatcher.Core;
-using EndlessOnlinePatcher.Desktop.Properties;
+using EoPatcher.Services;
+using EoPatcher.Services.VersionFetchers;
+using OneOf;
+using OneOf.Types;
+using System.Diagnostics;
 using System.Media;
+using System.Reflection;
 
-namespace EndlessOnlinePatcher.Desktop;
+namespace EoPatcher.UI;
 
 public partial class Main : Form
 {
-    private FileVersion? _remoteVersion = default;
-    private FileVersion? _localVersion = default;
     private bool _patching = false;
     private bool _dragging;
     private Point _mouseDownLocation;
-    private string _downloadLink = "";
-    private readonly IClientVersionFetcher _clientVersionFetcher;
-    private readonly SoundPlayer _sndClickDown = new(Resources.click_down);
-    private readonly SoundPlayer _sndClickUp = new(Resources.click_up);
+    private Version _serverVersion;
+    private readonly SoundPlayer _sndClickDown = new(Properties.Resources.click_down);
+    private readonly SoundPlayer _sndClickUp = new(Properties.Resources.click_up);
+
+    private readonly ILocalVersionRepository _localVersionRepository = new LocalVersionRepository();
+    private readonly IServerVersionFetcher _serverVersionFetcher = new ServerVersionFetcher();
 
     public Main()
     {
         InitializeComponent();
-        _clientVersionFetcher = new ClientVersionFetcher();
     }
 
-    private async void Main_Shown(object sender, EventArgs e)
+    private void Main_Shown(object sender, EventArgs e)
     {
-        _localVersion = _clientVersionFetcher.GetLocal();
-        (_downloadLink, _remoteVersion) = await _clientVersionFetcher.GetRemoteAsync();
-        if (_localVersion == _remoteVersion)
-        {
-            lblMessage.Text = "You are already up to date with the latest version";
-            pbxLaunch.Visible = true;
-        }
-        else
-        {
-            lblMessage.Text = $"A new version of the client is available{Environment.NewLine}(v{_localVersion} -> v{_remoteVersion})";
-            pbxPatch.Visible = true;
-            pbxSkip.Visible = true;
-        }
-        pbxExit.Visible = true;
+        string version = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion ?? "0.0.0.0";
+        lblTitle.Text = $"Endless Online Patcher v{version}";
+
+        SetPatchText("Getting local version...");
+        var localVersion = _localVersionRepository.Get();
+        SetPatchText("Getting remote version...");
+
+        _serverVersionFetcher
+            .Get()
+            .Switch(v =>
+            {
+                _serverVersion = v;
+                if (localVersion == v)
+                {
+                    SetPatchText($"You are already up to date with the latest version v{localVersion}");
+                    pbxLaunch.Visible = true;
+                }
+                else
+                {
+                    SetPatchText($"A new version of the client is available{Environment.NewLine}(v{localVersion} -> v{_serverVersion})");
+                    pbxPatch.Visible = true;
+                    pbxSkip.Visible = true;
+                }
+                pbxExit.Visible = true;
+            },
+            e =>
+            {
+                SetPatchText(e.Value);
+                pbxExit.Visible = true;
+                pbxPatch.Visible = false;
+                pbxSkip.Visible = false;
+                pbxLaunch.Visible = true;
+            });
     }
 
     private void Main_MouseDown(object sender, MouseEventArgs e)
@@ -64,12 +86,12 @@ public partial class Main : Form
 
     private void pbxLogout_MouseEnter(object sender, EventArgs e)
     {
-        pbxLogout.Image = Resources.eo_logout_hover;
+        pbxLogout.Image = Properties.Resources.eo_logout_hover;
     }
 
     private void pbxLogout_MouseLeave(object sender, EventArgs e)
     {
-        pbxLogout.Image = Resources.eo_logout;
+        pbxLogout.Image = Properties.Resources.eo_logout;
     }
 
     private void pbxLogout_Click(object sender, EventArgs e)
@@ -80,28 +102,28 @@ public partial class Main : Form
     private void pbxPatch_MouseEnter(object sender, EventArgs e)
     {
         if (_patching) return;
-        pbxPatch.Image = Resources.eo_patch_hover;
+        pbxPatch.Image = Properties.Resources.eo_patch_hover;
     }
 
     private void pbxPatch_MouseLeave(object sender, EventArgs e)
     {
         if (_patching) return;
-        pbxPatch.Image = Resources.eo_patch;
+        pbxPatch.Image = Properties.Resources.eo_patch;
     }
 
     private void pbxLaunch_MouseEnter(object sender, EventArgs e)
     {
-        pbxLaunch.Image = Resources.eo_launch_hover;
+        pbxLaunch.Image = Properties.Resources.eo_launch_hover;
     }
 
     private void pbxLaunch_MouseLeave(object sender, EventArgs e)
     {
-        pbxLaunch.Image = Resources.eo_launch;
+        pbxLaunch.Image = Properties.Resources.eo_launch;
     }
 
     private async void pbxLaunch_Click(object sender, EventArgs e)
     {
-        await Core.Windows.StartEO();
+        await Interop.Windows.StartEO();
         Close();
     }
 
@@ -112,22 +134,22 @@ public partial class Main : Form
 
     private void pbxExit_MouseEnter(object sender, EventArgs e)
     {
-        pbxExit.Image = Resources.eo_exit_hover;
+        pbxExit.Image = Properties.Resources.eo_exit_hover;
     }
 
     private void pbxExit_MouseLeave(object sender, EventArgs e)
     {
-        pbxExit.Image = Resources.eo_exit;
+        pbxExit.Image = Properties.Resources.eo_exit;
     }
 
     private void pbxSkip_MouseEnter(object sender, EventArgs e)
     {
-        pbxSkip.Image = Resources.skip_hover;
+        pbxSkip.Image = Properties.Resources.skip_hover;
     }
 
     private void pbxSkip_MouseLeave(object sender, EventArgs e)
     {
-        pbxSkip.Image = Resources.skip;
+        pbxSkip.Image = Properties.Resources.skip;
     }
 
     delegate void SetPatchTextCallback(string text);
@@ -142,6 +164,7 @@ public partial class Main : Form
         }
 
         lblMessage.Text = text;
+        lblMessageHover.SetToolTip(lblMessage, text);
     }
 
     private async void pbxPatch_MouseClick(object sender, MouseEventArgs e)
@@ -150,11 +173,13 @@ public partial class Main : Form
 
         _patching = true;
         pbxSkip.Visible = false;
-        pbxPatch.Image = Resources.eo_patching;
+        pbxPatch.Image = Properties.Resources.eo_patching;
 
-        using var patcher = new Patcher(_downloadLink, SetPatchText);
+        using var patcher = new PatchOrchestrator(SetPatchText);
 
-        await patcher.Patch(_remoteVersion!);
+        var result = await patcher.Patch(_serverVersion);
+        if (result.IsT1)
+            SetPatchText(result.AsT1.Value);
 
         _patching = false;
         pbxPatch.Visible = false;

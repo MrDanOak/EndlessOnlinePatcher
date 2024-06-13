@@ -1,6 +1,7 @@
 ﻿using System.Runtime.InteropServices;
+using EoPatcher.Models;
 
-namespace EndlessOnlinePatcher.Core;
+namespace EoPatcher.Interop;
 
 public static class Windows
 {
@@ -27,7 +28,7 @@ public static class Windows
         // 6. Make a primary token with that token(DuplicateTokenEx)
         // 7. Start the new process with that primary token(CreateProcessWithTokenW)
 
-        var hProcessToken = IntPtr.Zero;
+        var hProcessToken = nint.Zero;
         // Enable SeIncreaseQuotaPrivilege in this process.  (This won't work if current process is not elevated.)
         try
         {
@@ -46,7 +47,7 @@ public static class Windows
 
             tkp.Privileges[0].Attributes = 0x00000002;
 
-            if (!AdjustTokenPrivileges(hProcessToken, false, ref tkp, 0, IntPtr.Zero, IntPtr.Zero))
+            if (!AdjustTokenPrivileges(hProcessToken, false, ref tkp, 0, nint.Zero, nint.Zero))
                 return;
         }
         finally
@@ -59,12 +60,12 @@ public static class Windows
         // replaced with a custom shell.  This also won't return what you probably want if Explorer has been terminated and
         // restarted elevated.
         var hwnd = GetShellWindow();
-        if (hwnd == IntPtr.Zero)
+        if (hwnd == nint.Zero)
             return;
 
-        var hShellProcess = IntPtr.Zero;
-        var hShellProcessToken = IntPtr.Zero;
-        var hPrimaryToken = IntPtr.Zero;
+        var hShellProcess = nint.Zero;
+        var hShellProcessToken = nint.Zero;
+        var hPrimaryToken = nint.Zero;
         try
         {
             // Get the PID of the desktop shell process.
@@ -74,7 +75,7 @@ public static class Windows
 
             // Open the desktop shell process in order to query it (get the token)
             hShellProcess = OpenProcess(ProcessAccessFlags.QueryInformation, false, dwPID);
-            if (hShellProcess == IntPtr.Zero)
+            if (hShellProcess == nint.Zero)
                 return;
 
             // Get the process token of the desktop shell.
@@ -85,13 +86,13 @@ public static class Windows
 
             // Duplicate the shell's process token to get a primary token.
             // Based on experimentation, this is the minimal set of rights required for CreateProcessWithTokenW (contrary to current documentation).
-            if (!DuplicateTokenEx(hShellProcessToken, dwTokenRights, IntPtr.Zero, SECURITY_IMPERSONATION_LEVEL.SecurityImpersonation, TOKEN_TYPE.TokenPrimary, out hPrimaryToken))
+            if (!DuplicateTokenEx(hShellProcessToken, dwTokenRights, nint.Zero, SECURITY_IMPERSONATION_LEVEL.SecurityImpersonation, TOKEN_TYPE.TokenPrimary, out hPrimaryToken))
                 return;
 
             // Start the target process with the new token.
             var si = new STARTUPINFO();
             var pi = new PROCESS_INFORMATION();
-            if (!CreateProcessWithTokenW(hPrimaryToken, 0, fileName, "", 0, IntPtr.Zero, Path.GetDirectoryName(fileName)!, ref si, out pi))
+            if (!CreateProcessWithTokenW(hPrimaryToken, 0, fileName, "", 0, nint.Zero, Path.GetDirectoryName(fileName)!, ref si, out pi))
                 return;
         }
         finally
@@ -107,7 +108,7 @@ public static class Windows
 
     private struct TOKEN_PRIVILEGES
     {
-        public UInt32 PrivilegeCount;
+        public uint PrivilegeCount;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 1)]
         public LUID_AND_ATTRIBUTES[] Privileges;
     }
@@ -116,7 +117,7 @@ public static class Windows
     private struct LUID_AND_ATTRIBUTES
     {
         public LUID Luid;
-        public UInt32 Attributes;
+        public uint Attributes;
     }
 
     [StructLayout(LayoutKind.Sequential)]
@@ -161,8 +162,8 @@ public static class Windows
     [StructLayout(LayoutKind.Sequential)]
     private struct PROCESS_INFORMATION
     {
-        public IntPtr hProcess;
-        public IntPtr hThread;
+        public nint hProcess;
+        public nint hThread;
         public int dwProcessId;
         public int dwThreadId;
     }
@@ -170,57 +171,57 @@ public static class Windows
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     private struct STARTUPINFO
     {
-        public Int32 cb;
+        public int cb;
         public string lpReserved;
         public string lpDesktop;
         public string lpTitle;
-        public Int32 dwX;
-        public Int32 dwY;
-        public Int32 dwXSize;
-        public Int32 dwYSize;
-        public Int32 dwXCountChars;
-        public Int32 dwYCountChars;
-        public Int32 dwFillAttribute;
-        public Int32 dwFlags;
-        public Int16 wShowWindow;
-        public Int16 cbReserved2;
-        public IntPtr lpReserved2;
-        public IntPtr hStdInput;
-        public IntPtr hStdOutput;
-        public IntPtr hStdError;
+        public int dwX;
+        public int dwY;
+        public int dwXSize;
+        public int dwYSize;
+        public int dwXCountChars;
+        public int dwYCountChars;
+        public int dwFillAttribute;
+        public int dwFlags;
+        public short wShowWindow;
+        public short cbReserved2;
+        public nint lpReserved2;
+        public nint hStdInput;
+        public nint hStdOutput;
+        public nint hStdError;
     }
 
     [DllImport("kernel32.dll", ExactSpelling = true)]
-    private static extern IntPtr GetCurrentProcess();
+    private static extern nint GetCurrentProcess();
 
     [DllImport("advapi32.dll", ExactSpelling = true, SetLastError = true)]
-    private static extern bool OpenProcessToken(IntPtr h, int acc, ref IntPtr phtok);
+    private static extern bool OpenProcessToken(nint h, int acc, ref nint phtok);
 
     [DllImport("advapi32.dll", SetLastError = true)]
     private static extern bool LookupPrivilegeValue(string host, string name, ref LUID pluid);
 
     [DllImport("advapi32.dll", ExactSpelling = true, SetLastError = true)]
-    private static extern bool AdjustTokenPrivileges(IntPtr htok, bool disall, ref TOKEN_PRIVILEGES newst, int len, IntPtr prev, IntPtr relen);
+    private static extern bool AdjustTokenPrivileges(nint htok, bool disall, ref TOKEN_PRIVILEGES newst, int len, nint prev, nint relen);
 
     [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
-    private static extern bool CloseHandle(IntPtr hObject);
+    private static extern bool CloseHandle(nint hObject);
 
 
     [DllImport("user32.dll")]
-    private static extern IntPtr GetShellWindow();
+    private static extern nint GetShellWindow();
 
     [DllImport("user32.dll", SetLastError = true)]
-    private static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
+    private static extern uint GetWindowThreadProcessId(nint hWnd, out uint lpdwProcessId);
 
     [DllImport("kernel32.dll", SetLastError = true)]
-    private static extern IntPtr OpenProcess(ProcessAccessFlags processAccess, bool bInheritHandle, uint processId);
+    private static extern nint OpenProcess(ProcessAccessFlags processAccess, bool bInheritHandle, uint processId);
 
     [DllImport("advapi32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-    private static extern bool DuplicateTokenEx(IntPtr hExistingToken, uint dwDesiredAccess, IntPtr lpTokenAttributes, SECURITY_IMPERSONATION_LEVEL impersonationLevel, TOKEN_TYPE tokenType, out IntPtr phNewToken);
+    private static extern bool DuplicateTokenEx(nint hExistingToken, uint dwDesiredAccess, nint lpTokenAttributes, SECURITY_IMPERSONATION_LEVEL impersonationLevel, TOKEN_TYPE tokenType, out nint phNewToken);
 
     [DllImport("advapi32", SetLastError = true, CharSet = CharSet.Unicode)]
-    private static extern bool CreateProcessWithTokenW(IntPtr hToken, int dwLogonFlags, string lpApplicationName, string lpCommandLine, int dwCreationFlags, IntPtr lpEnvironment, string lpCurrentDirectory, [In] ref STARTUPINFO lpStartupInfo, out PROCESS_INFORMATION lpProcessInformation);
+    private static extern bool CreateProcessWithTokenW(nint hToken, int dwLogonFlags, string lpApplicationName, string lpCommandLine, int dwCreationFlags, nint lpEnvironment, string lpCurrentDirectory, [In] ref STARTUPINFO lpStartupInfo, out PROCESS_INFORMATION lpProcessInformation);
 
     #endregion
 }

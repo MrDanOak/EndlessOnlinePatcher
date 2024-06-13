@@ -1,4 +1,4 @@
-﻿namespace EndlessOnlinePatcher.Extensions;
+﻿namespace EoPatcher.Extensions;
 public static class HttpClientExtensions
 {
     public static async Task DownloadAsync(this HttpClient client, string requestUri, Stream destination, IProgress<int>? progress = null, CancellationToken cancellationToken = default)
