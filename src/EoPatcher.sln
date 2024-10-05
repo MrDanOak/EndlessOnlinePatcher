@@ -5,9 +5,7 @@ VisualStudioVersion = 17.8.34322.80
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EoPatcher.Core", "EoPatcher.Core\EoPatcher.Core.csproj", "{AC9170EF-8400-4C14-92D1-825834A0B5F4}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "EoPatcher.Setup", "EoPatcher.Setup\EoPatcher.Setup.vdproj", "{6628B546-FE0D-449F-A172-71B197D16212}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EoPatcher.UI", "EoPatcher.UI\EoPatcher.UI.csproj", "{1A5F4910-5F89-42EC-B747-998778A6BAEB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EoPatcher.UI", "EoPatcher.UI\EoPatcher.UI.csproj", "{1A5F4910-5F89-42EC-B747-998778A6BAEB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,10 +17,6 @@ Global
 		{AC9170EF-8400-4C14-92D1-825834A0B5F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AC9170EF-8400-4C14-92D1-825834A0B5F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AC9170EF-8400-4C14-92D1-825834A0B5F4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6628B546-FE0D-449F-A172-71B197D16212}.Debug|Any CPU.ActiveCfg = Debug
-		{6628B546-FE0D-449F-A172-71B197D16212}.Debug|Any CPU.Build.0 = Debug
-		{6628B546-FE0D-449F-A172-71B197D16212}.Release|Any CPU.ActiveCfg = Release
-		{6628B546-FE0D-449F-A172-71B197D16212}.Release|Any CPU.Build.0 = Release
 		{1A5F4910-5F89-42EC-B747-998778A6BAEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1A5F4910-5F89-42EC-B747-998778A6BAEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1A5F4910-5F89-42EC-B747-998778A6BAEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
