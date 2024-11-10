@@ -8,7 +8,7 @@ This project targets .NET 7, so you would require the .NET SDK version 7 at a mi
 
 # How it works
 
-This tool fetches the latest page from the [official client download page](https://www.endless-online.com/client/download.html) and uses a regular expression to extract the version of the game client and compares it to what you have installed locally. 
+This tool connects to the eo main server with an init packet to query what version the server is running. If the server version is different from the version stored locally in the .txt file, then it will download the latest client version automatically from the official EO website.
 
 This tool gets the installed location of Endless online either by checking the parent folder to the tool (e.g. This tool would install to `Endless Online/Patcher` if you were to use the installer provided) or if there is no Endless.exe in the parent folder, it defaults to `C:/Program Files (x86)/Endless Online/` as the install directory for the game.
 
